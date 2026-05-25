@@ -1,36 +1,44 @@
 # plato-adapters
 
-> Adapter layer for connecting PLATO to the SuperInstance ecosystem
+PLATO adapter implementations — connect PLATO rooms to external services and protocols.
 
-Part of the [SuperInstance](https://github.com/SuperInstance) music constraint theory ecosystem. Provides adapter modules that bridge the PLATO knowledge server with other SuperInstance services — translating between tile formats, routing queries, and integrating knowledge lookups into constraint pipelines.
+## What Are Adapters?
 
-## Status
+PLATO rooms hold knowledge tiles internally. Adapters connect rooms to the outside world — reading from data sources, writing to services, or bridging between protocols.
 
-This repository is currently in early development. The adapter interfaces are defined but the implementation is forthcoming as the PLATO system matures.
+## Available Adapters
 
-## Intended Architecture
+Adapters are loaded by [plato-core](https://github.com/SuperInstance/plato-core) via entry_points and auto-discovered at startup.
 
+## Usage
+
+```python
+from plato_core import Room
+
+room = Room("my-room")
+room.add_adapter("http-source", url="https://api.example.com/data")
+room.add_adapter("webhook-sink", url="https://hooks.example.com/incoming")
 ```
-┌─────────────┐     ┌──────────────┐     ┌──────────────────┐
-│ PLATO server │◄───►│ plato-adapters│◄───►│ SuperInstance     │
-│ (knowledge)  │     │ (translation) │     │ services          │
-└─────────────┘     └──────────────┘     │ (constraint-toolkit│
-                                         │  flux-genome, etc) │
-                                         └──────────────────┘
+
+## Creating Custom Adapters
+
+```python
+from plato_core.adapters import BaseAdapter
+
+class MyAdapter(BaseAdapter):
+    def read(self):
+        """Pull data into the room as tiles."""
+        ...
+
+    def write(self, tiles):
+        """Push tiles to an external system."""
+        ...
 ```
 
-Adapters translate between:
-- **Tiles** (PLATO's knowledge units) and **constraint parameters** (constraint-toolkit format)
-- **Room queries** and **tradition lookups** (flux-hyperbolic embeddings)
-- **Domain tags** and **genome fitness targets** (flux-genome parameters)
+## Related
 
-## Related Repos
-
-- [**plato-client**](https://github.com/SuperInstance/plato-client) — Python client for the PLATO server
-- [**constraint-toolkit**](https://github.com/SuperInstance/constraint-toolkit) — Constraint satisfaction engine
-- [**flux-genome**](https://github.com/SuperInstance/flux-genome) — Genetic evolution of musical genomes
-- [**flux-hyperbolic**](https://github.com/SuperInstance/flux-hyperbolic) — Hyperbolic tradition embeddings
-
-## License
-
-MIT
+- [plato-core](https://github.com/SuperInstance/plato-core) — Foundation types + mesh registry
+- [plato-mcp](https://github.com/SuperInstance/plato-mcp) — PLATO as MCP tools
+- [plato-engine](https://github.com/SuperInstance/plato-engine) — Room lifecycle engine
+- [plato-client](https://github.com/SuperInstance/plato-client) — Client library
+- [cocapn-plato](https://github.com/SuperInstance/cocapn-plato) — Full PLATO integration
