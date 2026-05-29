@@ -1,5 +1,9 @@
 # plato-adapters
 
+[![SuperInstance](https://img.shields.io/badge/SuperInstance-Ecosystem-blue)](https://github.com/SuperInstance)
+
+
+
 **PLATO adapter layer** — connects external services and protocols to the PLATO tile system. Standardized interfaces for fleet agents to interact with PLATO rooms.
 
 ## What This Gives You
