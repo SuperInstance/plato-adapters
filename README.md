@@ -16,6 +16,7 @@ pip install plato-adapters
 ```
 
 ## How It Fits
+- [OpenConstruct Documentation](https://github.com/SuperInstance/openconstruct-docs) — ecosystem-wide docs and guides
 
 The integration layer in the PLATO stack: `plato-room` → `plato-adapters` → external services. Used by all domain agents (`capitaine-agent`, `businesslog-agent`, `activeledger-agent`) to write to and read from PLATO.
 
