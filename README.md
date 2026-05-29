@@ -1,44 +1,24 @@
 # plato-adapters
 
-PLATO adapter implementations — connect PLATO rooms to external services and protocols.
+**PLATO adapter layer** — connects external services and protocols to the PLATO tile system. Standardized interfaces for fleet agents to interact with PLATO rooms.
 
-Adapters are the I/O layer for PLATO rooms. A room holds knowledge tiles internally; adapters move data in (via `read()`) and out (via `write()`). They're loaded by [plato-core](https://github.com/SuperInstance/plato-core) via `entry_points` and auto-discovered at startup.
+## What This Gives You
 
-## Adapter Interface
+- **Service adapters** — wrap external APIs as PLATO tile readers/writers
+- **Protocol bridges** — translate between PLATO tiles and other formats
+- **Room mapping** — map external data structures to PLATO room semantics
+- **Standard interface** — consistent API for all fleet integrations
 
-Every adapter implements two methods:
+## Installation
 
-```python
-from plato_core.adapters import BaseAdapter
-
-class MyAdapter(BaseAdapter):
-    def read(self):
-        """Pull data into the room as tiles."""
-        ...
-
-    def write(self, tiles):
-        """Push tiles to an external system."""
-        ...
+```bash
+pip install plato-adapters
 ```
 
-## Usage
+## How It Fits
 
-```python
-from plato_core import Room
+The integration layer in the PLATO stack: `plato-room` → `plato-adapters` → external services. Used by all domain agents (`capitaine-agent`, `businesslog-agent`, `activeledger-agent`) to write to and read from PLATO.
 
-room = Room("my-room")
-room.add_adapter("http-source", url="https://api.example.com/data")
-room.add_adapter("webhook-sink", url="https://hooks.example.com/incoming")
-```
+## License
 
-## Status
-
-Adapter implementations are in development. This repo will contain concrete adapters (HTTP source/sink, file watch, database, etc.) as they're built.
-
-## Related
-
-- [plato-core](https://github.com/SuperInstance/plato-core) — Foundation types + mesh registry
-- [plato-mcp](https://github.com/SuperInstance/plato-mcp) — PLATO as MCP tools
-- [plato-engine](https://github.com/SuperInstance/plato-engine) — Room lifecycle engine
-- [plato-client](https://github.com/SuperInstance/plato-client) — Client library
-- [cocapn-plato](https://github.com/SuperInstance/cocapn-plato) — Full PLATO integration
+MIT
